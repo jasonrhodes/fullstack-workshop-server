@@ -43,4 +43,12 @@ module.exports = `
     POPULARITY
     RELEASE_DATE
   }
+
+  type Movie {
+    blah: String
+  }
+
+  type Cast {
+    blah: String
+  }
 `;
