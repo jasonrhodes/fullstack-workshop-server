@@ -29,18 +29,8 @@ const models = {
   cast: castModel({ config, utils, loaders: makeLoaders() }),
 };
 
+const context = { models, user: 'a@a.com' };
+
 // Set up Apollo Server
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: ({ req }) => {
-    // simple auth check on every request
-    return { models, user: 'a@a.com' };
-  },
-  engine: true,
-});
 
 // Start our server with our port config
-server
-  .listen({ port: config.port })
-  .then(({ url }) => console.log(`🚀 app running at ${url}`));
