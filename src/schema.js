@@ -47,7 +47,7 @@ module.exports = `
     RELEASE_DATE
   }
 
-  type Movie @cacheControl(maxAge: 600) {
+  type Movie {
     id: ID
     title: String
     overview: String
@@ -63,7 +63,7 @@ module.exports = `
   }
 
 
-  type Cast @cacheControl(maxAge: 600) {
+  type Cast {
     id: ID
     name: String!
     photo(size: Int): String

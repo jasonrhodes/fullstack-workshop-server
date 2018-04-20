@@ -15,6 +15,6 @@ module.exports = {
       await models.movie.toggleMovieLike({ id, user });
       return models.movie.getMovieById(id);
     },
-    login: (_, { email }) => new Buffer(email).toString('base64'),
+    login: () => 'yo',
   },
 };
