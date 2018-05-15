@@ -34,13 +34,16 @@ Here's an example API response to help you out:
 
 module.exports = {
   Movie: {
-    score: () => null,
-    voteCount: () => null,
+    score: ({ vote_average }) => vote_average,
+    voteCount: () => null, // TODO
     poster: ({ poster_path }, { size = 500 }) =>
       poster_path && `https://image.tmdb.org/t/p/w${size}${poster_path}`,
-    genres: () => null,
-    releaseDate: () => null,
-    cast: () => null,
-    isLiked: () => null,
+    genres: ({ genres }) => (genres ? genres.map(g => g.name) : []),
+    releaseDate: () => null, // TODO
+    cast: () => null, // TOOD
+    isLiked: ({ id }, _, { models, user }) => {
+      if (!user) return false;
+      return models.movie.isMovieLiked({ user, id });
+    },
   },
 };
