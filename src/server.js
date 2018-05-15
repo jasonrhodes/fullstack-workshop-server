@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const { ApolloServer } = require('apollo-server');
-const fetch = require('node-fetch');
 const isEmail = require('isemail');
 
 const typeDefs = require('./schema');
@@ -23,19 +22,27 @@ const config = {
   },
 };
 
-// Initialize data models and pass dependencies
-const models = {
-  movie: movieModel({ config, utils, store, loaders: makeLoaders() }),
-  cast: castModel({ config, utils, loaders: makeLoaders() }),
-};
-
 // Set up Apollo Server
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => {
     // simple auth check on every request
-    return { models, user: 'a@a.com' };
+
+    const fetch = utils.makeFetch(config);
+    const loaders = makeLoaders(fetch);
+
+    // Initialize data models and pass dependencies
+    const models = {
+      movie: movieModel({ config, utils, store, loaders }),
+      cast: castModel({ config, utils, loaders }),
+    };
+
+    return {
+      models,
+      user: 'a@a.com',
+      fetch,
+    };
   },
   engine: true,
 });
